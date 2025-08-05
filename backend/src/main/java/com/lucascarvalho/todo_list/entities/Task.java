@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "TodoItems")
-public class TodoItem {
+@Table(name = "tasks")
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
@@ -23,5 +23,8 @@ public class TodoItem {
     public Priority priority;
 
     public Date deadline;
-    //todo: add resonsible user
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    public User userId;
 }
