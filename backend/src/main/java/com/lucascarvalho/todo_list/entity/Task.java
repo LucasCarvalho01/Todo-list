@@ -1,12 +1,17 @@
-package com.lucascarvalho.todo_list.entities;
+package com.lucascarvalho.todo_list.entity;
 
-import com.lucascarvalho.todo_list.entities.enums.Priority;
+import com.lucascarvalho.todo_list.entity.enums.Priority;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "tasks")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

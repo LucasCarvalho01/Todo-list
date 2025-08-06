@@ -1,6 +1,6 @@
-package com.lucascarvalho.todo_list.repositories;
+package com.lucascarvalho.todo_list.repository;
 
-import com.lucascarvalho.todo_list.entities.User;
+import com.lucascarvalho.todo_list.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,8 +1,8 @@
-package com.lucascarvalho.todo_list.controllers;
+package com.lucascarvalho.todo_list.controller;
 
 import java.util.List;
-import com.lucascarvalho.todo_list.entities.Task;
-import com.lucascarvalho.todo_list.repositories.TaskRepository;
+import com.lucascarvalho.todo_list.entity.Task;
+import com.lucascarvalho.todo_list.repository.TaskRepository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
