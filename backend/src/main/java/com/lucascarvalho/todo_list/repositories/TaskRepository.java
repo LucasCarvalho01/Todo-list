@@ -1,8 +1,9 @@
 package com.lucascarvalho.todo_list.repositories;
 
-import org.springframework.stereotype.Repository;
+import com.lucascarvalho.todo_list.entities.Task;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class TaskRepository {
+import java.util.Optional;
 
+public interface TaskRepository extends JpaRepository<Task, Long> {
 }
