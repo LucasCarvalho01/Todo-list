@@ -4,9 +4,12 @@ import com.lucascarvalho.todo_list.dto.User.UserRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -15,9 +18,35 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     public User(UserRequestDto userDto) {
         this.name = userDto.name();
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreRemove
+    protected void onDelete() {
+        deletedAt = LocalDateTime.now();
     }
 }
