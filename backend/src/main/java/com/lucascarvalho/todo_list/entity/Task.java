@@ -1,14 +1,16 @@
 package com.lucascarvalho.todo_list.entity;
 
 import com.lucascarvalho.todo_list.entity.enums.Priority;
+import com.lucascarvalho.todo_list.entity.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "tasks")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -23,13 +25,17 @@ public class Task {
     @Column(name = "description", length = 511)
     public String description;
 
-    @Column(name = "priority")
+    @Column(name = "priority", nullable = false)
     @Enumerated(EnumType.STRING)
     public Priority priority;
+    
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    public Status status;
 
-    public Date deadline;
+    public OffsetDateTime deadline;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    public User userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    public User user;
 }
