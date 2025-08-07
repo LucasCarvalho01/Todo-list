@@ -1,7 +1,5 @@
 package com.lucascarvalho.todo_list.service;
 
-import java.util.List;
-
 import com.lucascarvalho.todo_list.dto.Task.TaskRequestDto;
 import com.lucascarvalho.todo_list.dto.Task.TaskResponseDto;
 import com.lucascarvalho.todo_list.dto.Task.TaskUpdateDto;
@@ -13,6 +11,8 @@ import com.lucascarvalho.todo_list.mapper.TaskMapper;
 import com.lucascarvalho.todo_list.repository.TaskRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
