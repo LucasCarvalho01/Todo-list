@@ -1,6 +1,5 @@
 package com.lucascarvalho.todo_list.entity;
 
-import com.lucascarvalho.todo_list.dto.User.UserRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -24,6 +23,9 @@ public class User {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

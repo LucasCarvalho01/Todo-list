@@ -33,9 +33,15 @@ public class UserService {
                 .toList();
     }
 
+    protected User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
     public UserResponseDto saveUser(UserRequestDto userRequestDto) {
         User newUser = new User();
         newUser.setName(userRequestDto.name());
+        newUser.setEmail(userRequestDto.email());
 
         User savedUser = userRepository.save(newUser);
         log.info("User created with id: {}", savedUser.getId());
