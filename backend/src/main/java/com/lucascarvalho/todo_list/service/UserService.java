@@ -30,6 +30,11 @@ public class UserService {
         return userMapper.toResponseDto(user);
     }
 
+    User getUserEntityById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
     public List<UserResponseDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userMapper::toResponseDto)

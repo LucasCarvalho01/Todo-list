@@ -41,7 +41,7 @@ public class TaskService {
     }
 
     public TaskResponseDto saveTask(TaskRequestDto request) {
-        User user = userService.getUserByEmail(request.user().email());
+        User user = userService.getUserEntityById(request.userId());
 
         Task task = taskMapper.toTask(request);
         task.setStatus(Status.IN_PROGRESS);
