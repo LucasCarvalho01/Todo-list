@@ -1,1 +1,21 @@
-<p>task-list works!</p>
+<div class="task-table-container">
+  <table class="task-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Responsável</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (task of tasks; track task.id) {
+        <tr>
+            <app-task-item 
+                [task]="task"
+            />
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
