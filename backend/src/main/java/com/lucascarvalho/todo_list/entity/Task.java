@@ -17,25 +17,25 @@ import java.time.OffsetDateTime;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    public Long id;
+    private Long id;
 
     @Column(name = "title", nullable = false)
-    public String title;
+    private String title;
 
     @Column(name = "description", length = 511)
-    public String description;
+    private String description;
 
     @Column(name = "priority", nullable = false)
     @Enumerated(EnumType.STRING)
-    public Priority priority;
-    
+    private Priority priority;
+
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    public Status status;
+    private Status status;
 
-    public OffsetDateTime deadline;
+    private OffsetDateTime deadline;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    public User user;
+    private User user;
 }

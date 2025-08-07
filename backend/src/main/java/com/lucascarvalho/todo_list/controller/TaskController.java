@@ -1,22 +1,29 @@
 package com.lucascarvalho.todo_list.controller;
 
-import java.util.List;
+import com.lucascarvalho.todo_list.dto.Task.TaskResponseDto;
 import com.lucascarvalho.todo_list.entity.Task;
 import com.lucascarvalho.todo_list.repository.TaskRepository;
+import com.lucascarvalho.todo_list.service.TaskService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
     private final TaskRepository repository;
+    private final TaskService taskService;
 
-    public TaskController(TaskRepository repository) {
+    public TaskController(TaskRepository repository, TaskService taskService) {
         this.repository = repository;
+        this.taskService = taskService;
     }
 
     @GetMapping()
-    List<Task> getAllTasks() {
-        return repository.findAll();
+    public ResponseEntity<List<TaskResponseDto>> getAllTasks() {
+        List<TaskResponseDto> users = taskService.getAllTasks();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
