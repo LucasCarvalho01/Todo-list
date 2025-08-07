@@ -1,5 +1,7 @@
 package com.lucascarvalho.todo_list.dto.Task;
 
+import com.lucascarvalho.todo_list.dto.User.UserResponseDto;
+
 import java.time.OffsetDateTime;
 
 public record TaskResponseDto(
@@ -9,6 +11,6 @@ public record TaskResponseDto(
         String priority,
         String status,
         OffsetDateTime deadline,
-        Long userId
+        UserResponseDto user
 ) {
 }

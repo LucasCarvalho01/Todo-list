@@ -8,7 +8,6 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface TaskMapper {
-    @Mapping(source = "user.id", target = "userId")
     TaskResponseDto toResponseDto(Task task);
 
     Task toTask(TaskRequestDto taskRequestDto);
