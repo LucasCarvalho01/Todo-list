@@ -4,6 +4,7 @@ import com.lucascarvalho.todo_list.dto.User.UserRequestDto;
 import com.lucascarvalho.todo_list.dto.User.UserResponseDto;
 import com.lucascarvalho.todo_list.dto.User.UserUpdateDto;
 import com.lucascarvalho.todo_list.entity.User;
+import com.lucascarvalho.todo_list.exceptions.ResourceNotFoundException;
 import com.lucascarvalho.todo_list.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class UserService {
 
     public UserResponseDto getUserById(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         return new UserResponseDto(user.getId(), user.getName());
     }
@@ -44,7 +45,7 @@ public class UserService {
 
     public UserResponseDto updateUser(Long id, UserUpdateDto userUpdateDto) {
         User userToUpdate = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         userToUpdate.setName(userUpdateDto.name());
 
@@ -54,7 +55,7 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepository.delete(userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found")));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found")));
 
         log.info("User with id: {} deleted", id);
     }
