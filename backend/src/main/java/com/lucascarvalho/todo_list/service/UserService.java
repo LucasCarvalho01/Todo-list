@@ -5,6 +5,7 @@ import com.lucascarvalho.todo_list.dto.User.UserResponseDto;
 import com.lucascarvalho.todo_list.dto.User.UserUpdateDto;
 import com.lucascarvalho.todo_list.entity.User;
 import com.lucascarvalho.todo_list.exceptions.ResourceNotFoundException;
+import com.lucascarvalho.todo_list.mapper.UserMapper;
 import com.lucascarvalho.todo_list.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,21 +16,23 @@ import java.util.List;
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     public UserResponseDto getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        return new UserResponseDto(user.getId(), user.getName());
+        return userMapper.toResponseDto(user);
     }
 
     public List<UserResponseDto> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(user -> new UserResponseDto(user.getId(), user.getName()))
+                .map(userMapper::toResponseDto)
                 .toList();
     }
 
@@ -46,17 +49,18 @@ public class UserService {
         User savedUser = userRepository.save(newUser);
         log.info("User created with id: {}", savedUser.getId());
 
-        return new UserResponseDto(savedUser.getId(), savedUser.getName());
+        return userMapper.toResponseDto(savedUser);
     }
 
     public UserResponseDto updateUser(Long id, UserUpdateDto userUpdateDto) {
         User userToUpdate = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        userToUpdate.setName(userUpdateDto.name());
-
+        userMapper.updateUserFromDto(userUpdateDto, userToUpdate);
         userRepository.save(userToUpdate);
-        return new UserResponseDto(userToUpdate.getId(), userToUpdate.getName());
+
+        log.info("User with id {} was updated", userToUpdate.getId());
+        return userMapper.toResponseDto(userToUpdate);
     }
 
     public void deleteUser(Long id) {
