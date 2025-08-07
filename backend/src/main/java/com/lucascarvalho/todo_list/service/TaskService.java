@@ -2,6 +2,7 @@ package com.lucascarvalho.todo_list.service;
 
 import com.lucascarvalho.todo_list.dto.Task.TaskRequestDto;
 import com.lucascarvalho.todo_list.dto.Task.TaskResponseDto;
+import com.lucascarvalho.todo_list.dto.Task.TaskStatusUpdateDto;
 import com.lucascarvalho.todo_list.dto.Task.TaskUpdateDto;
 import com.lucascarvalho.todo_list.entity.Task;
 import com.lucascarvalho.todo_list.entity.User;
@@ -61,6 +62,17 @@ public class TaskService {
         taskRepository.save(task);
 
         log.info("Task with id {} was updated", task.getId());
+        return taskMapper.toResponseDto(task);
+    }
+
+    public TaskResponseDto updateTaskStatus(Long id, TaskStatusUpdateDto statusUpdateDto) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
+
+        task.setStatus(statusUpdateDto.status());
+        taskRepository.save(task);
+
+        log.info("Task with id {} was updated to status {}", task.getId(), task.getStatus());
         return taskMapper.toResponseDto(task);
     }
 

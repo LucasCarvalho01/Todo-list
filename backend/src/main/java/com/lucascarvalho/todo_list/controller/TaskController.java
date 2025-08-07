@@ -2,6 +2,7 @@ package com.lucascarvalho.todo_list.controller;
 
 import com.lucascarvalho.todo_list.dto.Task.TaskRequestDto;
 import com.lucascarvalho.todo_list.dto.Task.TaskResponseDto;
+import com.lucascarvalho.todo_list.dto.Task.TaskStatusUpdateDto;
 import com.lucascarvalho.todo_list.dto.Task.TaskUpdateDto;
 import com.lucascarvalho.todo_list.service.TaskService;
 import jakarta.validation.Valid;
@@ -38,9 +39,15 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<TaskResponseDto> updateTask(@Valid @RequestBody TaskUpdateDto updateDto, @PathVariable Long id) {
         TaskResponseDto updatedTask = taskService.updateTask(updateDto, id);
+        return ResponseEntity.ok(updatedTask);
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<TaskResponseDto> finishTask(@PathVariable Long id, @Valid @RequestBody TaskStatusUpdateDto statusDto) {
+        TaskResponseDto updatedTask = taskService.updateTaskStatus(id, statusDto);
         return ResponseEntity.ok(updatedTask);
     }
 
