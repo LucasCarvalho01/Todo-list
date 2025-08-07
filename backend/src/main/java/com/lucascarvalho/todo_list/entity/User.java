@@ -3,6 +3,8 @@ package com.lucascarvalho.todo_list.entity;
 import com.lucascarvalho.todo_list.dto.User.UserRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +15,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@SQLDelete(sql = "UPDATE users SET deleted_at = NOW() WHERE id = ?")
+@Where(clause = "deleted_at IS NULL")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -29,10 +33,6 @@ public class User {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
-
-    public User(UserRequestDto userDto) {
-        this.name = userDto.name();
-    }
 
     @PrePersist
     protected void onCreate() {
