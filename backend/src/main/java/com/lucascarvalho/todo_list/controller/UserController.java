@@ -4,6 +4,7 @@ import com.lucascarvalho.todo_list.dto.User.UserRequestDto;
 import com.lucascarvalho.todo_list.dto.User.UserResponseDto;
 import com.lucascarvalho.todo_list.dto.User.UserUpdateDto;
 import com.lucascarvalho.todo_list.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@SecurityRequirement(name = "bearer-jwt")
 public class UserController {
     private final UserService userService;
 
@@ -30,12 +32,6 @@ public class UserController {
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
         UserResponseDto user = userService.getUserById(id);
         return ResponseEntity.ok(user);
-    }
-
-    @PostMapping()
-    public ResponseEntity<UserResponseDto> saveUser(@Valid @RequestBody UserRequestDto userDto) {
-        UserResponseDto newUser = userService.saveUser(userDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 
     @PutMapping("{id}")

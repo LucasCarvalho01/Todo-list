@@ -5,6 +5,7 @@ import com.lucascarvalho.todo_list.dto.Task.TaskResponseDto;
 import com.lucascarvalho.todo_list.dto.Task.TaskStatusUpdateDto;
 import com.lucascarvalho.todo_list.dto.Task.TaskUpdateDto;
 import com.lucascarvalho.todo_list.service.TaskService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
+@SecurityRequirement(name = "bearer-jwt")
 public class TaskController {
     private final TaskService taskService;
 
