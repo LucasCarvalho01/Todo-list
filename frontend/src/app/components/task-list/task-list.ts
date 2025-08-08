@@ -9,6 +9,7 @@ import { catchError, map, throwError } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { TaskCreateDialog } from '../task-create-dialog/task-create-dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { TaskEditDialog } from '../task-edit-dialog/task-edit-dialog';
 
 @Component({
   selector: 'app-task-list',
@@ -98,7 +99,8 @@ export class TaskList implements OnInit, AfterViewInit {
 
   constructor(
     private taskService: TaskService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private editDialog: MatDialog
   ) {}
   
   ngOnInit() {
@@ -110,7 +112,6 @@ export class TaskList implements OnInit, AfterViewInit {
   }
 
   openCreateTaskDialog() {
-    // Extrair usuários únicos das tasks para passar para o dialog
     const availableUsers = this.getUniqueUsers();
     
     const dialogRef = this.dialog.open(TaskCreateDialog, {
@@ -121,18 +122,37 @@ export class TaskList implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Aqui você deve chamar o serviço para criar a task
         console.log('Nova task:', result);
         this.snackBar.open('Tarefa criada com sucesso!', 'Ok', {
           duration: 3000,
           panelClass: 'snackbar-success'
         });
         
-        // Recarregar as tasks
         this.loadTasks();
       }
     });
   }
+
+  openEditTaskDialog(id: number) {  
+    const dialogRef = this.dialog.open(TaskEditDialog, {
+      width: '500px',
+      maxWidth: '90vw',
+      data: { taskId: id }
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result) {
+    //     console.log('task:', result);
+    //     this.snackBar.open('Tarefa atualizada com sucesso!', 'Ok', {
+    //       duration: 3000,
+    //       panelClass: 'snackbar-success'
+    //     });
+        
+    //     this.loadTasks();
+    //   }
+    // });
+  }
+
 
   private getUniqueUsers() {
     const users = this.tasks.map(task => task.user);
@@ -178,14 +198,6 @@ export class TaskList implements OnInit, AfterViewInit {
     }
 
     this.dataSource.data = filteredData;
-  }
-
-  editTask() {
-    console.log("editar")
-    this.snackBar.open('Tarefa editada com sucesso', 'Ok', {
-      duration: 3000,
-      panelClass: 'snackbar-success'
-    });
   }
 
   finishTask(task: Task) {

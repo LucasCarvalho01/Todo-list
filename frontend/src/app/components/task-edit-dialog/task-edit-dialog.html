@@ -1,0 +1,56 @@
+<div class="container">
+    <div mat-dialog-title>
+        <h3>Editar Tarefa</h3>
+        <button mat-icon-button mat-dialog-close>
+            <mat-icon fontIcon="close"></mat-icon>
+        </button>
+    </div>
+
+
+    @if (!task) {
+    <div class="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+    }
+
+    @if (task) {
+    <mat-dialog-content>
+        <form [formGroup]="taskForm" class="task-form">
+            <mat-form-field appearance="outline">
+                <mat-label>Título</mat-label>
+                <input matInput formControlName="title">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Descrição</mat-label>
+                <textarea matInput formControlName="description" rows="3"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Prioridade</mat-label>
+                <mat-select formControlName="priority">
+                    @for(priority of priorityOptions; track priority.value) {
+                    <mat-option [value]="priority.value">
+                        {{ priority.label }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Data limite</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="deadline">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button (click)="onCancel()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="taskForm.invalid">
+            Salvar
+        </button>
+    </mat-dialog-actions>
+    }
+</div>

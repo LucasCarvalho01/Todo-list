@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, retry, throwError } from 'rxjs';
-import { CreateTask, Task, TaskStatus } from '../models';
+import { CreateTask, EditTask, Task, TaskStatus } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,14 @@ export class TaskService {
 
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.apiUrl}/tasks`)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
+  }
+
+  getTaskById(id: number): Observable<Task> {
+    return this.http.get<Task>(`${this.apiUrl}/tasks/${id}`)
       .pipe(
         retry(1),
         catchError(this.handleError)
@@ -32,6 +40,13 @@ export class TaskService {
   createTask(task: CreateTask): Observable<Task> {
     console.log(task);
     return this.http.post<Task>(`${this.apiUrl}/tasks`, task)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  updateTask(id: number, task: EditTask): Observable<Task> {
+    return this.http.put<Task>(`${this.apiUrl}/tasks/${id}`, task)
       .pipe(
         catchError(this.handleError)
       );

@@ -18,4 +18,10 @@ export interface CreateTask {
     userId: number
 }
 
+export interface EditTask {
+    title?: string,
+    description?: string,
+    priority?: 'LOW' | 'MEDIUM' | 'HIGH',
+    deadline?: string | null
+}
 export type TaskStatus = 'DONE' | 'IN_PROGRESS' 

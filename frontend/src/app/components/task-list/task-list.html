@@ -21,7 +21,7 @@
     <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Ações </th>
         <td mat-cell *matCellDef="let task"> 
-            <a (click)="editTask()" mat-icon-button>Editar</a>
+            <a (click)="openEditTaskDialog(task.id)" mat-icon-button>Editar</a>
 
             <a mat-icon-button (click)="deleteTask(task)"> | Excluir</a>
 
