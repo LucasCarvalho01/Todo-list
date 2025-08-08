@@ -10,4 +10,12 @@ export interface Task {
     user: User
 }
 
+export interface CreateTask {
+    title: string,
+    description?: string,
+    priority: 'LOW' | 'MEDIUM' | 'HIGH',
+    deadline?: string | null,
+    userId: number
+}
+
 export type TaskStatus = 'DONE' | 'IN_PROGRESS' 

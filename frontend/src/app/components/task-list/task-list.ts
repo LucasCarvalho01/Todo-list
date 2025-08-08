@@ -7,6 +7,8 @@ import { TaskService } from '../../services/task.service';
 import { MatIconModule } from '@angular/material/icon';
 import { catchError, map, throwError } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { TaskCreateDialog } from '../task-create-dialog/task-create-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-task-list',
@@ -94,18 +96,57 @@ export class TaskList implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private taskService: TaskService) {}
+  constructor(
+    private taskService: TaskService,
+    private dialog: MatDialog
+  ) {}
   
   ngOnInit() {
-    // this.dataSource.data = this.tasks;
-    this.taskService.getTasks().subscribe((tasks) => {
-      this.tasks = tasks;
-      this.dataSource.data = tasks;
-    });
+    this.loadTasks();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  openCreateTaskDialog() {
+    // Extrair usuários únicos das tasks para passar para o dialog
+    const availableUsers = this.getUniqueUsers();
+    
+    const dialogRef = this.dialog.open(TaskCreateDialog, {
+      width: '500px',
+      maxWidth: '90vw',
+      data: { users: availableUsers }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Aqui você deve chamar o serviço para criar a task
+        console.log('Nova task:', result);
+        this.snackBar.open('Tarefa criada com sucesso!', 'Ok', {
+          duration: 3000,
+          panelClass: 'snackbar-success'
+        });
+        
+        // Recarregar as tasks
+        this.loadTasks();
+      }
+    });
+  }
+
+  private getUniqueUsers() {
+    const users = this.tasks.map(task => task.user);
+    const uniqueUsers = users.filter((user, index, self) => 
+      index === self.findIndex(u => u.email === user.email)
+    );
+    return uniqueUsers;
+  }
+
+  private loadTasks() {
+    this.taskService.getTasks().subscribe((tasks) => {
+      this.tasks = tasks;
+      this.dataSource.data = tasks;
+    });
   }
 
   onFilterChange(filters: any) {
@@ -188,6 +229,11 @@ export class TaskList implements OnInit, AfterViewInit {
           this.tasks.splice(index, 1);
           this.dataSource.data = [...this.tasks];
         }
+
+        this.snackBar.open('Tarefa excluída com sucesso', 'Ok', {
+          duration: 3000,
+          panelClass: 'snackbar-success'
+        });
       },
       error: (error) => {
         this.snackBar.open('Erro ao excluir tarefa', 'Ok', {
