@@ -1,13 +1,16 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { Task } from '../../models';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TaskFilter } from '../task-filter/task-filter';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { TaskService } from '../../services/task.service';
+import { MatIconModule } from '@angular/material/icon';
+import { catchError, map, throwError } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-task-list',
-  imports: [MatTableModule, TaskFilter, MatPaginatorModule],
+  imports: [MatTableModule, TaskFilter, MatPaginatorModule, MatIconModule, MatSnackBarModule],
   templateUrl: './task-list.html',
   styleUrl: './task-list.css'
 })
@@ -87,6 +90,7 @@ export class TaskList implements OnInit, AfterViewInit {
   // ]
   tasks: Task[] = [];
   dataSource = new MatTableDataSource<Task>(this.tasks);
+  private snackBar = inject(MatSnackBar);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -133,5 +137,64 @@ export class TaskList implements OnInit, AfterViewInit {
     }
 
     this.dataSource.data = filteredData;
+  }
+
+  editTask() {
+    console.log("editar")
+    this.snackBar.open('Tarefa editada com sucesso', 'Ok', {
+      duration: 3000,
+      panelClass: 'snackbar-success'
+    });
+  }
+
+  finishTask(task: Task) {
+    this.taskService.finishTask(task.id, 'DONE')
+      .pipe(
+        catchError(error => {
+          console.error('Error finishing task:', error);
+          return throwError(() => error);
+        })
+      )
+      .subscribe({
+        next: (updatedTask) => {
+          const index = this.tasks.findIndex(t => t.id === updatedTask.id);
+          if (index !== -1) {
+            this.tasks[index] = updatedTask;
+            this.dataSource.data = [...this.tasks];
+          }
+        },
+        error: (error) => {
+          this.snackBar.open('Erro ao finalizar tarefa', 'Ok', {
+            duration: 3000,
+            panelClass: 'snackbar-error'
+          });
+        }
+      });
+  }
+
+  deleteTask(task: Task) {
+    this.taskService.deleteTask(task.id)
+    .pipe(
+      map(() => task.id),
+      catchError(error => {
+        console.error('Error deleteing task:', error);
+        return throwError(() => error);
+      })
+    )
+    .subscribe({
+      next: (deletedTaskId) => {
+        const index = this.tasks.findIndex(t => t.id === deletedTaskId);
+        if (index !== -1) {
+          this.tasks.splice(index, 1);
+          this.dataSource.data = [...this.tasks];
+        }
+      },
+      error: (error) => {
+        this.snackBar.open('Erro ao excluir tarefa', 'Ok', {
+          duration: 3000,
+          panelClass: 'snackbar-error'
+        });
+      }
+    });
   }
 }

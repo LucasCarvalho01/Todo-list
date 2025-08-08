@@ -10,3 +10,4 @@ export interface Task {
     user: User
 }
 
+export type TaskStatus = 'DONE' | 'IN_PROGRESS' 
