@@ -1,0 +1,33 @@
+.container {
+    padding: 16px;
+    padding-top: 24px;
+}
+
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 400px;
+}
+
+.task-form mat-form-field {
+  width: 100%;
+}
+
+div[mat-dialog-title] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 0 0 16px 0;
+}
+
+div[mat-dialog-title] h3 {
+  margin: 0;
+  color: #333;
+}
+
+mat-dialog-actions {
+  padding: 16px 0 0 0;
+  gap: 8px;
+}

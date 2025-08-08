@@ -1,0 +1,58 @@
+<div class="container">
+    <div mat-dialog-title>
+        <h3>Nova Tarefa</h3>
+        <button mat-icon-button mat-dialog-close>
+            <mat-icon fontIcon="close"></mat-icon>
+        </button>
+    </div>
+
+    <mat-dialog-content>
+        <form [formGroup]="taskForm" class="task-form">
+            <mat-form-field appearance="outline">
+                <mat-label>Título *</mat-label>
+                <input matInput formControlName="title" placeholder="Digite o título da tarefa">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Descrição</mat-label>
+                <textarea matInput formControlName="description" rows="3"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Prioridade *</mat-label>
+                <mat-select formControlName="priority">
+                    @for(priority of priorityOptions; track priority.value) {
+                    <mat-option [value]="priority.value">
+                        {{ priority.label }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Data limite</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="deadline">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Responsável *</mat-label>
+                <mat-select formControlName="userId">
+                    @for(user of availableUsers; track user.id) {
+                    <mat-option [value]="user.id">
+                        {{ user.name }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button (click)="onCancel()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="taskForm.invalid">
+            Cadastrar
+        </button>
+    </mat-dialog-actions>
+</div>

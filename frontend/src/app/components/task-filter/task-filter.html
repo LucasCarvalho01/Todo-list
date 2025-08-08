@@ -1,0 +1,34 @@
+<form [formGroup]="filterForm" class="filter-container" (ngSubmit)="onSubmit()">
+    <mat-form-field class="id-column">
+        <mat-label>Número</mat-label>
+        <input type="number" matInput formControlName="id">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Título/Descrição</mat-label>
+        <input matInput formControlName="title">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Situação</mat-label>
+        <mat-select formControlName="status">
+            <mat-option value="">Todos</mat-option>
+            <mat-option value="DONE">Concluída</mat-option>
+            <mat-option value="IN_PROGRESS">Em andamento</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Responsável</mat-label>
+        <mat-select formControlName="user">
+            <mat-option value="">Todos</mat-option>
+            @for(user of availableUsers; track user) {
+                <mat-option [value]=user>
+                    {{ user }}
+                </mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+
+    <div class="button-container">
+        <button mat-raised-button type="button" (click)="clearFilters()">Limpar Filtros</button>
+        <button mat-raised-button color="primary" type="submit">Buscar Tarefas</button>
+    </div>
+</form>

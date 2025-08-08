@@ -1,0 +1,116 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-mdc-table {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+    
+    .mat-mdc-header-row {
+    background-color: grey;
+      
+      .mat-mdc-header-cell {
+        color: white;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        border-bottom: none;
+        padding: 16px 24px;
+      }
+    }
+    
+    .mat-mdc-row {
+      transition: all 0.3s ease;
+      border-bottom: 1px solid #f0f0f0;
+      
+      &:hover {
+        background-color: #f8f9ff;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      
+      &:nth-child(even) {
+        background-color: #dcdde4;
+      }
+      
+      .mat-mdc-cell {
+        padding: 16px 24px;
+        font-size: 14px;
+        color: #333;
+        border: none;
+        
+        &:first-child {
+          font-weight: 600;
+        }
+        
+        &:last-child {
+          text-align: center;
+        }
+      }
+    }
+  }
+  
+  .mat-mdc-paginator {
+    background: #f8f9ff;
+    border-top: 2px solid grey;
+    border-radius: 0 0 8px 8px;
+    
+    .mat-mdc-paginator-range-label {
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .mat-mdc-icon-button {
+      &:hover {
+        background-color: rgba(102, 126, 234, 0.1);
+      }
+    }
+  }
+  
+  .filter-container {
+    border: none !important;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    
+    .mat-mdc-form-field {
+      .mat-mdc-text-field-wrapper {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      
+      .mat-mdc-form-field-label {
+        color: #667eea;
+        font-weight: 500;
+      }
+    }
+    
+    .mat-mdc-raised-button {
+      border-radius: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+      }
+    }
+  }
+  
+  .page-container {
+    padding: 12px;
+    background-color: #f8f9ff;
+    min-height: 100vh;
+  }
+  
+  .table-container {
+    margin-top: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+  }
