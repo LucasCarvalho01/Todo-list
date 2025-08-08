@@ -32,12 +32,6 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping()
-    public ResponseEntity<UserResponseDto> saveUser(@Valid @RequestBody UserRequestDto userDto) {
-        UserResponseDto newUser = userService.saveUser(userDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
-    }
-
     @PutMapping("{id}")
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDto userUpdateDto) {
         UserResponseDto updatedUser = userService.updateUser(id, userUpdateDto);
