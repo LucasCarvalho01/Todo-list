@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, Validators, FormBuilder, FormGroupDirective } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,14 +16,25 @@ import { finalize } from 'rxjs/operators';
   styleUrl: './register.css'
 })
 export class Register {
-  registerForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-  });
+  registerForm!: FormGroup;
   isLoading = false;
+  @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
 
-  constructor(private authService: AuthService, private snackBar: MatSnackBar) {}
+  constructor(
+    private authService: AuthService, 
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder
+  ) {
+    this.createForm();
+  }
+
+  private createForm() {
+    this.registerForm = this.fb.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+    });
+  }
 
   register() {
     this.isLoading = true;
@@ -32,7 +43,8 @@ export class Register {
     .subscribe({
       next: (response) => {
         console.log(response);
-        this.registerForm.reset();
+        
+        this.formGroupDirective.resetForm();
         this.snackBar.open('Registrado com sucesso', 'Fechar', {
           duration: 3000,
         });
