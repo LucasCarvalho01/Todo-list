@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TaskList } from './components/task-list/task-list';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrazilianDateAdapter } from './shared/br-date-adapter';
+import { Header } from './components/header/header';
 
 export const BR_DATE_FORMATS = {
   parse: {
@@ -18,7 +18,7 @@ export const BR_DATE_FORMATS = {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TaskList],
+  imports: [RouterOutlet, Header],
   templateUrl: './app.html',
   styleUrl: './app.css',
   providers: [

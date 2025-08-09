@@ -1,0 +1,14 @@
+<header class="app-header">
+    <div class="header-content">
+        <h1 class="header-title">Gerenciador de Tarefas</h1>
+
+        <div class="header-actions">
+            @if(isLoggedIn) {
+            <button mat-raised-button color="primary" (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                Log out
+            </button>
+            }
+        </div>
+    </div>
+</header>

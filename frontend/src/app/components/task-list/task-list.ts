@@ -14,6 +14,7 @@ import { TaskEditDialog } from '../task-edit-dialog/task-edit-dialog';
 @Component({
   selector: 'app-task-list',
   imports: [MatTableModule, TaskFilter, MatPaginatorModule, MatIconModule, MatSnackBarModule],
+  standalone: true,
   templateUrl: './task-list.html',
   styleUrl: './task-list.css'
 })

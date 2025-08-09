@@ -7,6 +7,6 @@ public record UserLoginRequestDto(
         String email,
 
         @NotBlank(message = "Password is required")
-        String passoword
+        String password
 ) {
 }
