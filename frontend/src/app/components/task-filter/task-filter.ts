@@ -9,6 +9,7 @@ import { Task } from '../../models';
 @Component({
   selector: 'app-task-filter',
   imports: [MatFormFieldModule, MatInputModule, MatSelectModule, ReactiveFormsModule, MatButtonModule],
+  standalone: true,
   templateUrl: './task-filter.html',
   styleUrl: './task-filter.css'
 })

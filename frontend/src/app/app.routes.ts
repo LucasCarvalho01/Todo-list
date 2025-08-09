@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Home } from './components/home/home';
 import { TaskList } from './components/task-list/task-list';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
     {
@@ -9,6 +10,7 @@ export const routes: Routes = [
     },
     {
         path: 'tasks',
-        component: TaskList
+        component: TaskList,
+        canActivate: [authGuard]
     }
 ];

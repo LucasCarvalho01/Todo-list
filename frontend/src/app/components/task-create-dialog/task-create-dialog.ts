@@ -26,6 +26,7 @@ import { TaskService } from '../../services/task.service';
     MatDatepickerModule,
     MatNativeDateModule
   ],
+  standalone: true,
   templateUrl: './task-create-dialog.html',
   styleUrl: './task-create-dialog.css'
 })
@@ -44,7 +45,7 @@ export class TaskCreateDialog implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { users: User[] }
   ) {
     this.availableUsers = data?.users || [];
-    
+
     this.taskForm = new FormGroup({
       title: new FormControl('', [Validators.required, Validators.minLength(3)]),
       description: new FormControl(''),
@@ -56,6 +57,12 @@ export class TaskCreateDialog implements OnInit {
 
   ngOnInit() {
   }
+
+  // getAvailableUsers() {
+  //   this.taskService.getUsers().subscribe((users) => {
+  //     this.availableUsers = users;
+  //   });
+  // }
 
   onSubmit() {
     if (this.taskForm.valid) {

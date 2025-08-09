@@ -28,6 +28,7 @@ import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress
     MatNativeDateModule,
     MatProgressSpinnerModule
   ],
+  standalone: true,
   templateUrl: './task-edit-dialog.html',
   styleUrl: './task-edit-dialog.css'
 })

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '../../services/auth';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginRequest } from '../../models';
@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { finalize } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ export class Login {
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
+  private router = inject(Router);
   isLoading = false;
 
   constructor(private authService: AuthService, private snackBar: MatSnackBar) {}
@@ -30,8 +32,8 @@ export class Login {
     .pipe(finalize(() => this.isLoading = false))
     .subscribe({
       next: (response) => {
-        console.log(response);
         this.loginForm.reset();
+        this.router.navigate(['/tasks']);
       },
       error: (error) => {
         console.error(error);
