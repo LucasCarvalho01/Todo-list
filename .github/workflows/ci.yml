@@ -1,0 +1,74 @@
+name: Unit Tests backend
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Run tests with coverage
+        working-directory: ./backend
+        run: mvn clean verify
+        continue-on-error: true
+        id: tests
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: backend/target/site/jacoco/
+
+      - name: Comment PR
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            console.log('${{ steps.tests.outcome }}');
+            const success = '${{ steps.tests.outcome }}' === 'success';
+            const icon = success ? '✅' : '❌';
+            const status = success ? 'Sucesso' : 'Falha';
+            
+            const comment = `## ${icon} Cobertura de Testes unitários do Backend
+            
+            **Status:** ${status}
+            
+            ${success ? 
+              'Cobertura mínima de 70% atingida!' : 
+              'Cobertura mínima de 70% não foi atingida. Verifique o relatório.'
+            }`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Fail if tests failed
+        if: steps.tests.outcome == 'failure'
+        run: exit 1
