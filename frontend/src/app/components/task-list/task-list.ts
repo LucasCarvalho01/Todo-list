@@ -20,7 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './task-list.css'
 })
 export class TaskList implements OnInit, AfterViewInit {
-  displayedColumns = ['id', 'title', 'user', 'actions'];
+  displayedColumns = ['id', 'status', 'title', 'description', 'user', 'actions'];
   tasks: Task[] = [];
   dataSource = new MatTableDataSource<Task>(this.tasks);
   private snackBar = inject(MatSnackBar);
@@ -55,6 +55,7 @@ export class TaskList implements OnInit, AfterViewInit {
           panelClass: 'snackbar-success'
         });
         
+        this.dataSource.data = [...this.dataSource.data, result];
         this.loadTasks();
       }
     });
