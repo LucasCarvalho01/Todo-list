@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:17.5-alpine
+    container_name: db_postgres
+    environment:
+      POSTGRES_DB: todo-db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: abcd1234.
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d todo-db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  backend:
+    build: ./backend
+    container_name: backend_app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - DB_URL=jdbc:postgresql://db:5432/todo-db
+      - DB_USERNAME=user
+      - DB_PASSWORD=abcd1234.
+      - JWT_SECRET_KEY=c30d147116dc27f460187b407980faf99efca82192fb6923af1edb25078fa9e4
+      - JWT_EXP_TIME=3600000
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_app
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

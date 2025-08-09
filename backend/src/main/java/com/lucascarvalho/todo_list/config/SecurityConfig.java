@@ -39,7 +39,8 @@ public class SecurityConfig {
                         request.requestMatchers("/api/auth/**",
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
-                                        "/swagger-ui.html"
+                                        "/swagger-ui.html",
+                                        "/actuator/health"
                                 )
                                 .permitAll()
                                 .anyRequest()
@@ -52,7 +53,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:4201"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:4201", "http://localhost:80", "http://localhost"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
