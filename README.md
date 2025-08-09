@@ -43,8 +43,6 @@ Configurado Guard no Angular para verificar se o usuário está autenticado;
 - **F\)** Implementação de testes unitários com JUnit e Mockito; <br>
 Configurado cobertura de testes com Jacoco; <br>
 Configurado GitHub Actions para executar os testes unitários e gerar relatório de cobertura ao abrir uma PR para main; <br>
-[![Unit Tests backend](https://github.com/owner/repo/actions/workflows/ci.yml/badge.svg)](https://github.com/owner/repo/actions/workflows/ci.yml)
-
 
 - **G\)** Configurado Swagger para documentação da API e realizar requisições de forma autenticada; <br>
 
