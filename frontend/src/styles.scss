@@ -14,11 +14,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       
       .mat-mdc-header-cell {
         color: white;
-        font-size: 14px;
+        font-size: 12px;
         letter-spacing: 0.5px;
         text-transform: uppercase;
         border-bottom: none;
-        padding: 16px 24px;
+        padding: 8px 12px;
       }
     }
     
@@ -37,8 +37,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       }
       
       .mat-mdc-cell {
-        padding: 16px 24px;
-        font-size: 14px;
+        padding: 8px 12px;
+        font-size: 12px;
         color: #333;
         border: none;
         
@@ -85,19 +85,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       .mat-mdc-form-field-label {
         color: #667eea;
         font-weight: 500;
-      }
-    }
-    
-    .mat-mdc-raised-button {
-      border-radius: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
-      
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
       }
     }
   }
