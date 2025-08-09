@@ -34,7 +34,6 @@ public class SecurityConfig {
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .requiresChannel(c -> c.requestMatchers("/api/auth/**").requiresInsecure())
                 .authorizeHttpRequests(request ->
                         request.requestMatchers("/api/auth/**",
                                         "/v3/api-docs/**",

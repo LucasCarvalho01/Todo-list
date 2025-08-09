@@ -134,6 +134,11 @@ export class TaskList implements OnInit, AfterViewInit {
             this.tasks[index] = updatedTask;
             this.dataSource.data = [...this.tasks];
           }
+
+          this.snackBar.open('Tarefa concluída com sucesso', 'Ok', {
+            duration: 3000,
+            panelClass: 'snackbar-success'
+          });
         },
         error: (error) => {
           this.snackBar.open('Erro ao finalizar tarefa', 'Ok', {
