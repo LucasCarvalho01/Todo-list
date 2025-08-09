@@ -6,3 +6,8 @@ a:hover {
     color: #005cbb;
     text-decoration: underline;
 }
+
+.create-task-button {
+    display: block;
+    margin: 0 auto 10px;
+}

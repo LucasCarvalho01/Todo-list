@@ -10,88 +10,17 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { TaskCreateDialog } from '../task-create-dialog/task-create-dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskEditDialog } from '../task-edit-dialog/task-edit-dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-task-list',
-  imports: [MatTableModule, TaskFilter, MatPaginatorModule, MatIconModule, MatSnackBarModule],
+  imports: [MatTableModule, TaskFilter, MatPaginatorModule, MatIconModule, MatSnackBarModule, MatButtonModule],
   standalone: true,
   templateUrl: './task-list.html',
   styleUrl: './task-list.css'
 })
 export class TaskList implements OnInit, AfterViewInit {
   displayedColumns = ['id', 'title', 'user', 'actions'];
-  // tasks: Task[] = [
-  //   {
-  //     id: 1,
-  //     title: "Task 1",
-  //     description: "Task asdfas asdf",
-  //     priority: 'HIGH',
-  //     status: 'IN_PROGRESS',
-  //     deadline: new Date(),
-  //     user: {
-  //       name: 'John Doe',
-  //       email: 'john.doe@example.com'
-  //     }
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Task 2",
-  //     priority: 'LOW',
-  //     status: 'DONE',
-  //     deadline: new Date(),
-  //     user: {
-  //       name: 'Jane Doe',
-  //       email: 'jane.doe@example.com'
-  //     }
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Configurar banco de dados Configurar banco de dados Configurar banco de dados Configurar banco de dados",
-  //     description: "Setup inicial do banco",
-  //     priority: 'HIGH',
-  //     status: 'IN_PROGRESS',
-  //     deadline: new Date(),
-  //     user: {
-  //       name: 'John Doe',
-  //       email: 'john.doe@example.com'
-  //     }
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Testes unitários",
-  //     description: "Implementar testes automatizados",
-  //     priority: 'MEDIUM',
-  //     status: 'DONE',
-  //     deadline: new Date(),
-  //     user: {
-  //       name: 'Jane Doe Silva ribeiro nome grande muito grande',
-  //       email: 'jane.doe@example.com'
-  //     }
-  //   },
-  //   {
-  //     id: 5,
-  //     title: "Documentação da API",
-  //     description: "Criar documentação completa",
-  //     priority: 'LOW',
-  //     status: 'IN_PROGRESS',
-  //     deadline: new Date(),
-  //     user: {
-  //       name: 'Carlos Silva',
-  //       email: 'carlos.silva@example.com'
-  //     }
-  //   },
-  //   {
-  //     id: 8,
-  //     title: "Task asd ssss",
-  //     priority: 'LOW',
-  //     status: 'DONE',
-  //     deadline: new Date(),
-  //     user: {
-  //       name: 'Jane Doe',
-  //       email: 'jane.doe@example.com'
-  //     }
-  //   }
-  // ]
   tasks: Task[] = [];
   dataSource = new MatTableDataSource<Task>(this.tasks);
   private snackBar = inject(MatSnackBar);
@@ -113,12 +42,9 @@ export class TaskList implements OnInit, AfterViewInit {
   }
 
   openCreateTaskDialog() {
-    const availableUsers = this.getUniqueUsers();
-    
     const dialogRef = this.dialog.open(TaskCreateDialog, {
       width: '500px',
-      maxWidth: '90vw',
-      data: { users: availableUsers }
+      maxWidth: '90vw'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -141,26 +67,17 @@ export class TaskList implements OnInit, AfterViewInit {
       data: { taskId: id }
     });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result) {
-    //     console.log('task:', result);
-    //     this.snackBar.open('Tarefa atualizada com sucesso!', 'Ok', {
-    //       duration: 3000,
-    //       panelClass: 'snackbar-success'
-    //     });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('task:', result);
+        this.snackBar.open('Tarefa atualizada com sucesso!', 'Ok', {
+          duration: 3000,
+          panelClass: 'snackbar-success'
+        });
         
-    //     this.loadTasks();
-    //   }
-    // });
-  }
-
-
-  private getUniqueUsers() {
-    const users = this.tasks.map(task => task.user);
-    const uniqueUsers = users.filter((user, index, self) => 
-      index === self.findIndex(u => u.email === user.email)
-    );
-    return uniqueUsers;
+        this.loadTasks();
+      }
+    });
   }
 
   private loadTasks() {

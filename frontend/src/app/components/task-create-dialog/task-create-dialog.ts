@@ -11,6 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CreateTask, User } from '../../models';
 import { TaskService } from '../../services/task.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-task-create-dialog',
@@ -42,10 +43,8 @@ export class TaskCreateDialog implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<TaskCreateDialog>,
     private taskService: TaskService,
-    @Inject(MAT_DIALOG_DATA) public data: { users: User[] }
+    private userService: UserService
   ) {
-    this.availableUsers = data?.users || [];
-
     this.taskForm = new FormGroup({
       title: new FormControl('', [Validators.required, Validators.minLength(3)]),
       description: new FormControl(''),
@@ -56,13 +55,8 @@ export class TaskCreateDialog implements OnInit {
   }
 
   ngOnInit() {
+    this.getAvailableUsers();
   }
-
-  // getAvailableUsers() {
-  //   this.taskService.getUsers().subscribe((users) => {
-  //     this.availableUsers = users;
-  //   });
-  // }
 
   onSubmit() {
     if (this.taskForm.valid) {
@@ -88,6 +82,12 @@ export class TaskCreateDialog implements OnInit {
 
   onCancel() {
     this.dialogRef.close();
+  }
+
+  private getAvailableUsers() {
+    this.userService.getUsers().subscribe((users) => {
+      this.availableUsers = users;
+    });
   }
 
   private formatDateForBackend(date: Date): string {
